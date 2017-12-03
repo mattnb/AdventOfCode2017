@@ -24,13 +24,10 @@
  */
 
 function checksum(data) {
-	let checksums = data.split('\n')
-		.map((row) => {
-			let t = row.split('\t');
-			return Math.max.apply(null, t) - Math.min.apply(null, t);
-		})
-		.reduce((accumulator, current) => accumulator + current)
-	;
+	const diff = (row) => Math.max.apply(null, row) - Math.min.apply(null, row);
 
-	console.log(checksums);
+	return data.split('\n').reduce((accumulator, current) => {
+		let acc = (typeof accumulator !== 'number') ? diff(accumulator.split('\t')) : accumulator;
+		return acc + diff(current.split('\t'));
+	});
 }
